@@ -41,8 +41,8 @@
     {{#yield-slot 'view'}}
       {{yield (block-params this (action 'onSelect'))}}
     {{/yield-slot}}
-    <div class="actions">
-      {{#yield-slot 'selection-actions'}}
+    {{#yield-slot 'selection-actions'}}
+      <div class="actions">
         {{yield (block-params
           (hash
             button=(component
@@ -50,7 +50,7 @@
             )
           )
         )}}
-      {{/yield-slot}}
-    </div>
+      </div>
+    {{/yield-slot}}
   </div>
 </div>
