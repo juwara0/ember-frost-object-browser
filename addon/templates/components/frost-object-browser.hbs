@@ -16,41 +16,40 @@
     {{yield (block-params filters onFilter)}}
   {{/yield-slot}}
   <div class="content">
-    <div class="tools">
-      <div class="sort"/>
-        {{#yield-slot 'pagination'}}
-          <div class="pagination">
-            {{yield (block-params
-              (hash control=(component
-                'frost-object-browser-paginator'
-                  itemsPerPage=itemsPerPage
-                  page=computedPageNumber
-                  total=computedValuesTotal
-                )
-              )
-              (action 'onPageChanged')
-            )}}
-          </div>
-        {{/yield-slot}}
-      <div class="detail">
-        <span class="text">
-          <!-- TODO: make this a variable to support i18n better -->
-          View:
-        </span>
-        {{#yield-slot 'view-controls'}}
-          {{yield (block-params this viewSchema (action 'onDetailChange'))}}
-        {{/yield-slot}}
+    {{#yield-slot 'controls'}}
+      <div class="tools">
+        <div class="sort"/>
+        {{yield (block-params
+          (hash
+            pagination=(component
+            'frost-object-browser-paginator'
+              itemsPerPage=itemsPerPage
+              page=computedPageNumber
+              total=computedValuesTotal
+            )
+            expansion=(component
+            'frost-object-browser-button-bar'
+              detailLevel=detailLevel
+              viewLevel=viewSchema
+            )
+          )
+          (action 'onPageChanged')
+          (action 'onDetailChange')
+        )}}
       </div>
-    </div>
-    {{#yield-slot 'objects'}}
+    {{/yield-slot}}
+    {{#yield-slot 'view'}}
       {{yield (block-params this (action 'onSelect'))}}
     {{/yield-slot}}
-
-
-
     <div class="actions">
-      {{#yield-slot 'object-actions'}}
-        {{yield 'actions'}}
+      {{#yield-slot 'selection-actions'}}
+        {{yield (block-params
+          (hash
+            button=(component
+            'frost-object-browser-action-bar'
+            )
+          )
+        )}}
       {{/yield-slot}}
     </div>
   </div>

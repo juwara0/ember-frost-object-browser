@@ -1,0 +1,10 @@
+{{#each actionBarItems as |actionBarItem|}}
+  {{#frost-button
+    disabled=(not actionBarItem.enabled)
+    onClick=(action onActionClick actionBarItem.id)
+    priority='secondary'
+    size='large'
+  }}
+  <div class="text">{{actionBarItem.label}}</div>
+  {{/frost-button}}
+{{/each}}

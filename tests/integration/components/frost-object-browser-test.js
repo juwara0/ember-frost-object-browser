@@ -136,8 +136,8 @@ describeComponent(
           values=model.resources
           model=model.model
          as |slot|}}
-          {{#block-slot slot 'pagination' as |paginator onPageChanged|}}
-            {{paginator.control
+          {{#block-slot slot 'controls' as |control onPageChanged|}}
+            {{control.pagination
               onPageChanged=(action onPageChanged)
             }}
           {{/block-slot}}

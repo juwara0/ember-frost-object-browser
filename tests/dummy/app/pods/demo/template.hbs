@@ -11,6 +11,14 @@
   viewSchema=viewSchema
   filters=filters
 as |slot|}}
+  {{#block-slot slot 'info-bar' as |infoBar|}}
+    <div class="primary-title">
+      {{infoBar.title}}
+    </div>
+    <div class="sub-title">
+      {{infoBar.summary}}
+    </div>
+  {{/block-slot}}
   {{#block-slot slot 'app-actions' as |onCreate|}}
     {{frost-button
       icon='frost/infobar-create'
@@ -24,15 +32,15 @@ as |slot|}}
   {{#block-slot slot 'filters' as |filters onFilter|}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
-  {{#block-slot slot 'info-bar' as |infoBar|}}
-    <div class="primary-title">
-      {{infoBar.title}}
-    </div>
-    <div class="sub-title">
-      {{infoBar.summary}}
-    </div>
+  {{#block-slot slot 'controls' as |control onPageChanged onDetailChange|}}
+    {{control.pagination
+      onPageChanged=(action onPageChanged)
+    }}
+    {{control.expansion
+      onDetailChange=(action onDetailChange)
+    }}
   {{/block-slot}}
-  {{#block-slot slot 'objects' as |object onSelect|}}
+  {{#block-slot slot 'view' as |object onSelect|}}
     {{#frost-list onSelect=(action onSelect) selections=object.selectedItems records=object.computedValues as |record|}}
       {{#frost-object-browser-list-item model=record as |value|}}
         {{frost-bunsen-detail
@@ -44,52 +52,10 @@ as |slot|}}
       {{/frost-object-browser-list-item}}
     {{/frost-list}}
   {{/block-slot}}
-  {{#block-slot slot 'object-actions'}}
-    {{#each actionBarItems as |actionBarItem|}}
-      {{#frost-button
-        disabled=(not actionBarItem.enabled)
-        onClick=(action 'onActionClick' actionBarItem.id)
-        priority='secondary'
-        size='large'
-      }}
-        <div class="text">{{actionBarItem.label}}</div>
-      {{/frost-button}}
-    {{/each}}
-  {{/block-slot}}
-  {{#block-slot slot 'pagination' as |paginator onPageChanged|}}
-    {{paginator.control
-      onPageChanged=(action onPageChanged)
+  {{#block-slot slot 'selection-actions' as |action|}}
+    {{action.button
+      actionBarItems=actionBarItems
+      onActionClick=(action 'onActionClick')
     }}
-  {{/block-slot}}
-  {{#block-slot slot 'view-controls' as |viewControl viewLevel onDetailChange|}}
-    <div class="button-bar {{ viewControl.detailLevel }}">
-    {{#if viewLevel.low}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'low')
-        onClick=(action onDetailChange 'low')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-small'
-      }}
-    {{/if}}
-    {{#if viewLevel.medium}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'medium')
-        onClick=(action onDetailChange 'medium')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-medium'
-      }}
-    {{/if}}
-    {{#if viewLevel.high}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'high')
-        onClick=(action onDetailChange 'high')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-large'
-      }}
-    {{/if}}
-    </div>
   {{/block-slot}}
 {{/frost-object-browser}}
