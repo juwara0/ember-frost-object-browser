@@ -136,10 +136,19 @@ describeComponent(
           values=model.resources
           model=model.model
          as |slot|}}
-          {{#block-slot slot 'controls' as |control onPageChanged|}}
-            {{control.pagination
+          {{#block-slot slot 'content' as | content onPageChanged onDetailChange onSelect|}}
+            {{#frost-object-browser-content
+              content=content
               onPageChanged=(action onPageChanged)
-            }}
+              onDetailChange=(action onDetailChange)
+              onSelect=(action onSelect)
+            as |slot|}}
+              {{#block-slot slot 'controls' as |control onPageChanged onDetailChange|}}
+                {{control.pagination
+                  onPageChanged=(action onPageChanged)
+                }}
+              {{/block-slot}}
+            {{/frost-object-browser-content}}
           {{/block-slot}}
         {{/frost-object-browser}}
       `)
