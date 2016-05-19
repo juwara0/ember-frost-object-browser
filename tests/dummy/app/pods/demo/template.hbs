@@ -32,30 +32,39 @@ as |slot|}}
   {{#block-slot slot 'filters' as |filters onFilter|}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
-  {{#block-slot slot 'controls' as |control onPageChanged onDetailChange|}}
-    {{control.pagination
+  {{#block-slot slot 'content' as | content onPageChanged onDetailChange onSelect|}}
+    {{#frost-object-browser-content
+      content=content
       onPageChanged=(action onPageChanged)
-    }}
-    {{control.expansion
       onDetailChange=(action onDetailChange)
-    }}
-  {{/block-slot}}
-  {{#block-slot slot 'view' as |object onSelect|}}
-    {{#frost-list onSelect=(action onSelect) selections=object.selectedItems records=object.computedValues as |record|}}
-      {{#frost-object-browser-list-item model=record as |value|}}
-        {{frost-bunsen-detail
-          model=object.model
-          renderers=object.renderers
-          value=value
-          view=object.computedViewLevel
+      onSelect=(action onSelect)
+    as |slot|}}
+      {{#block-slot slot 'controls' as |control onPageChanged onDetailChange|}}
+        {{control.pagination
+          onPageChanged=(action onPageChanged)
         }}
-      {{/frost-object-browser-list-item}}
-    {{/frost-list}}
-  {{/block-slot}}
-  {{#block-slot slot 'selection-actions' as |action|}}
-    {{action.button
-      actionBarItems=actionBarItems
-      onActionClick=(action 'onActionClick')
-    }}
+        {{control.expansion
+          onDetailChange=(action onDetailChange)
+        }}
+      {{/block-slot}}
+      {{#block-slot slot 'view' as |display onSelect|}}
+        {{#frost-list onSelect=(action onSelect) selections=display.selectedItems records=display.computedValues as |record|}}
+          {{#frost-object-browser-list-item model=record as |value|}}
+            {{frost-bunsen-detail
+              model=display.model
+              renderers=display.renderers
+              value=value
+              view=display.computedViewLevel
+            }}
+          {{/frost-object-browser-list-item}}
+        {{/frost-list}}
+      {{/block-slot}}
+      {{#block-slot slot 'selection-actions' as |action|}}
+        {{action.button
+          actionBarItems=actionBarItems
+          onActionClick=(action 'onActionClick')
+        }}
+      {{/block-slot}}
+    {{/frost-object-browser-content}}
   {{/block-slot}}
 {{/frost-object-browser}}
