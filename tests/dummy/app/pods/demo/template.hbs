@@ -11,23 +11,25 @@
   viewSchema=viewSchema
   filters=filters
 as |slot|}}
-  {{#block-slot slot 'info-bar' as |infoBar|}}
-    <div class="primary-title">
-      {{infoBar.title}}
-    </div>
-    <div class="sub-title">
-      {{infoBar.summary}}
-    </div>
-  {{/block-slot}}
-  {{#block-slot slot 'app-actions' as |onCreate|}}
-    {{frost-button
-      icon='frost/infobar-create'
-      onClick=(action onCreate)
-      priority='tertiary'
-      size='medium'
-      text='Create'
-      vertical=true
-    }}
+  {{#block-slot slot 'info-bar' as |infoBar onCreate|}}
+    {{#frost-info-bar
+      content=infoBar
+      onCreate=(action onCreate)
+    as |slot|}}
+      {{#block-slot slot 'title' as |content|}}
+        {{content.title}}
+      {{/block-slot}}
+      {{#block-slot slot 'summary' as |content|}}
+        {{content.summary}}
+      {{/block-slot}}
+      {{#block-slot slot 'actions' as |action onCreate|}}
+        {{action.button
+          icon='frost/infobar-create'
+          onClick=(action onCreate)
+          text='Create'
+        }}
+      {{/block-slot}}
+    {{/frost-info-bar}}
   {{/block-slot}}
   {{#block-slot slot 'filters' as |filters onFilter|}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}

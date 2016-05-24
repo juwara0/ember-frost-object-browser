@@ -1,16 +1,10 @@
 {{yield}}
-<div class="frost-info-bar">
-  <div class="title">
-    {{#yield-slot 'info-bar'}}
-      {{yield (block-params this)}}
-    {{/yield-slot}}
-  </div>
-  <div class="top-buttons" background-color='red'>
-    {{#yield-slot 'app-actions'}}
-      {{yield (block-params (action 'onCreate'))}}
-    {{/yield-slot}}
-  </div>
-</div>
+{{#yield-slot 'info-bar'}}
+  {{yield (block-params
+    this
+    (action 'onCreate')
+  )}}
+{{/yield-slot}}
 <div class="body">
   {{#yield-slot 'filters'}}
     {{yield (block-params filters onFilter)}}
