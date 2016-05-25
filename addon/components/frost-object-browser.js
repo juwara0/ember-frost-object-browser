@@ -178,14 +178,6 @@ export default Ember.Component.extend(PropTypeMixin, {
       }
     },
 
-    onCreate () {
-      const onCreate = this.get('onCreate')
-
-      if (onCreate) {
-        onCreate()
-      }
-    },
-
     /**
      * Change our LOD
      * @param {String} newLevel - new level ('low', 'med', high')
