@@ -6,7 +6,7 @@
 {{/yield-slot}}
 <div class="body">
   {{#yield-slot 'filters'}}
-    {{yield (block-params filters onFilter)}}
+    {{yield}}
   {{/yield-slot}}
   {{#yield-slot 'content'}}
     {{yield (block-params

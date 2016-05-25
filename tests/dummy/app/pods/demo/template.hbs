@@ -7,7 +7,6 @@
   onRowSelect=(action 'onRowSelect')
   values=model.resources
   viewSchema=viewSchema
-  filters=filters
 as |slot|}}
   {{#block-slot slot 'info-bar' as |infoBar|}}
     {{#frost-info-bar as |slot|}}
@@ -26,7 +25,7 @@ as |slot|}}
       {{/block-slot}}
     {{/frost-info-bar}}
   {{/block-slot}}
-  {{#block-slot slot 'filters' as |filters onFilter|}}
+  {{#block-slot slot 'filters'}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
   {{#block-slot slot 'content' as | content onPageChanged onDetailChange onSelect|}}
