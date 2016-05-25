@@ -29,7 +29,6 @@ export default Ember.Component.extend(PropTypeMixin, {
     itemsPerPage: PropTypes.number,
     pageNumber: PropTypes.number,
     selectedItems: PropTypes.array,
-    showCountInSummary: PropTypes.bool,
     valuesTotal: PropTypes.number
   },
 
@@ -40,8 +39,7 @@ export default Ember.Component.extend(PropTypeMixin, {
       itemsPerPage: 20,
       pageNumber: null,
       selectedItems: Ember.A([]),
-      valuesTotal: null,
-      showCountInSummary: true
+      valuesTotal: null
     }
   },
 
