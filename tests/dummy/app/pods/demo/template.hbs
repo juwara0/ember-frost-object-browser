@@ -5,27 +5,22 @@
   onDetailChange=(action 'onDetailChange')
   onFacetChange=(action 'onOptionSelected')
   onRowSelect=(action 'onRowSelect')
-  title='Resources'
-  subtitle='L3VPN Services'
   values=model.resources
   viewSchema=viewSchema
   filters=filters
 as |slot|}}
-  {{#block-slot slot 'info-bar' as |infoBar onCreate|}}
-    {{#frost-info-bar
-      content=infoBar
-      onCreate=(action onCreate)
-    as |slot|}}
-      {{#block-slot slot 'title' as |content|}}
-        {{content.title}}
+  {{#block-slot slot 'info-bar' as |infoBar|}}
+    {{#frost-info-bar as |slot|}}
+      {{#block-slot slot 'title'}}
+        Resources
       {{/block-slot}}
-      {{#block-slot slot 'summary' as |content|}}
-        {{content.summary}}
+      {{#block-slot slot 'summary'}}
+        {{infoBar.computedValuesTotal}} - L3VPN Services
       {{/block-slot}}
-      {{#block-slot slot 'actions' as |action onCreate|}}
+      {{#block-slot slot 'actions' as |action|}}
         {{action.button
           icon='frost/infobar-create'
-          onClick=(action onCreate)
+          onClick=(action 'onCreate')
           text='Create'
         }}
       {{/block-slot}}
