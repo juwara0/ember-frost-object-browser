@@ -58,11 +58,6 @@ describeComponent('frost-object-browser', 'Unit | frost-object-browser', {
     sandbox.reset()
   })
 
-  it('computedStyle is computed properly', function () {
-    component.set('contentHeight', 123)
-    expect(component.get('computedStyle')).to.equal('height: 123px;')
-  })
-
   it('computedViewLevel is computed properly (with a viewSchema)', function () {
     component.set('detailLevel', 'high')
     expect(component.get('computedViewLevel')).to.deep.equal({foo: 3})

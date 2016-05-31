@@ -6,25 +6,22 @@
       (hash
         pagination=(component
         'frost-object-browser-paginator'
-          itemsPerPage=content.itemsPerPage
-          page=content.computedPageNumber
-          total=content.computedValuesTotal
+          onPageChanged=(action 'onPageChanged')
         )
         expansion=(component
         'frost-object-browser-button-bar'
-          detailLevel=content.detailLevel
-          viewLevel=content.viewSchema
+          detailLevel=detailLevel
+          viewLevel=viewSchema
         )
       )
-      (action onPageChanged)
-      (action onDetailChange)
+      this
     )}}
   </div>
 {{/yield-slot}}
 {{#yield-slot 'view'}}
   {{yield (block-params
-    content
-    (action onSelect)
+    this
+    (action 'onSelect')
   )}}
 {{/yield-slot}}
 {{#yield-slot 'selection-actions'}}

@@ -1,18 +1,10 @@
-{{#frost-object-browser
-  itemsPerPage=6
-  model=model.model
-  onDetailChange=(action 'onDetailChange')
-  onFacetChange=(action 'onOptionSelected')
-  onRowSelect=(action 'onRowSelect')
-  values=model.resources
-  viewSchema=viewSchema
-as |slot|}}
-  {{#block-slot slot 'info-bar' as |infoBar|}}
-    {{#frost-info-bar as |slot|}}
+{{#frost-object-browser as |slot|}}
+  {{#block-slot slot 'info-bar'}}
+    {{#frost-object-browser-info-bar values=model.resources as |slot|}}
       {{#block-slot slot 'title'}}
         Resources
       {{/block-slot}}
-      {{#block-slot slot 'summary'}}
+      {{#block-slot slot 'summary' as |infoBar|}}
         {{infoBar.computedValuesTotal}} - L3VPN Services
       {{/block-slot}}
       {{#block-slot slot 'actions' as |action|}}
@@ -22,29 +14,33 @@ as |slot|}}
           text='Create'
         }}
       {{/block-slot}}
-    {{/frost-info-bar}}
+    {{/frost-object-browser-info-bar}}
   {{/block-slot}}
   {{#block-slot slot 'filters'}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
-  {{#block-slot slot 'content' as | content onPageChanged onDetailChange onSelect|}}
+  {{#block-slot slot 'content'}}
     {{#frost-object-browser-content
-      content=content
-      onPageChanged=(action onPageChanged)
-      onDetailChange=(action onDetailChange)
-      onSelect=(action onSelect)
+      detailLevel='high'
+      itemsPerPage=6
+      model=model.model
+      onRowSelect=(action 'onRowSelect')
+      values=model.resources
+      viewSchema=viewSchema
     as |slot|}}
-      {{#block-slot slot 'controls' as |control onPageChanged onDetailChange|}}
+      {{#block-slot slot 'controls' as |control page|}}
         {{control.pagination
-          onPageChanged=(action onPageChanged)
+          itemsPerPage=page.itemsPerPage
+          page=page.computedPageNumber
+          total=page.computedValuesTotal
         }}
         {{control.expansion
-          onDetailChange=(action onDetailChange)
+          onDetailChange=(action 'onDetailChange')
         }}
       {{/block-slot}}
       {{#block-slot slot 'view' as |display onSelect|}}
         {{#frost-list onSelect=(action onSelect) selections=display.selectedItems records=display.computedValues as |record|}}
-          {{#frost-object-browser-list-item model=record as |value|}}
+          {{#frost-object-browser-list-item model=record detailLevel=display.detailLevel as |value|}}
             {{frost-bunsen-detail
               model=display.model
               renderers=display.renderers

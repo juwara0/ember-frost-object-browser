@@ -1,9 +1,22 @@
 import Ember from 'ember'
-import layout from '../templates/components/frost-object-browser-paginator'
 import computed, {readOnly} from 'ember-computed-decorators'
+import layout from '../templates/components/frost-object-browser-paginator'
 
 export default Ember.Component.extend({
+
+  // ================================================================
+  // Dependencies
+  // ================================================================
+
+  // ================================================================
+  // Properties
+  // ================================================================
+
   layout: layout,
+
+  // ================================================================
+  // Computed Properties
+  // ================================================================
 
   @readOnly
   @computed('page', 'itemsPerPage', 'total')
@@ -48,6 +61,10 @@ export default Ember.Component.extend({
     return page === Math.floor((total - 1) / itemsPerPage)
   },
 
+  // ================================================================
+  // Functions
+  // ================================================================
+
   /**
    * Handle command buttons for changing pagination
    * @param {String} where - one of begin|back|forward|end
@@ -55,5 +72,13 @@ export default Ember.Component.extend({
   onPageChanged (where) {
     this.sendAction('onPageChanged', where)
   }
+
+  // ================================================================
+  // Events
+  // ================================================================
+
+  // ================================================================
+  // Actions
+  // ================================================================
 
 })

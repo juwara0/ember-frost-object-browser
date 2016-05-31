@@ -1,12 +1,6 @@
 import Ember from 'ember'
-import layout from '../templates/components/frost-object-browser'
+import layout from '../templates/components/frost-object-browser-info-bar'
 import ObjectBrowserStates from '../mixins/frost-object-browser-states'
-
-/**
- * @type SelectedRecord
- * @property {Boolean} isSelected - whether or not it is selected
- * @property {Object} record - the record itself
- */
 
 export default Ember.Component.extend(ObjectBrowserStates, {
 
@@ -18,7 +12,7 @@ export default Ember.Component.extend(ObjectBrowserStates, {
   // Properties
   // ================================================================
 
-  classNames: ['frost-object-browser'],
+  classNames: ['frost-info-bar'],
 
   layout
 

@@ -138,18 +138,6 @@ export default Ember.Controller.extend({
       window.alert('One does not merely create things')
     },
 
-    onOptionSelected () {
-      let selected = this.get('selected')
-      console.log('Facet changed')
-      const facet = arguments[0]
-      if (facet.value.length === 0) {
-        delete selected[facet.id]
-      } else {
-        selected[facet.id] = facet.value
-      }
-      this.set('selected', selected)
-    },
-
     onRowSelect (allSelected, newSelected, deSelected) {
       let actionBarItems
 

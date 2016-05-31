@@ -1,19 +1,12 @@
 {{yield}}
 {{#yield-slot 'info-bar'}}
-  {{yield (block-params
-    this
-  )}}
+  {{yield}}
 {{/yield-slot}}
 <div class="body">
   {{#yield-slot 'filters'}}
     {{yield}}
   {{/yield-slot}}
   {{#yield-slot 'content'}}
-    {{yield (block-params
-      this
-      (action 'onPageChanged')
-      (action 'onDetailChange')
-      (action 'onSelect')
-    )}}
+    {{yield}}
   {{/yield-slot}}
 </div>

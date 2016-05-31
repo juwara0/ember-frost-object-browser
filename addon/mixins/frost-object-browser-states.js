@@ -1,8 +1,9 @@
+import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
-import FrostListItem from 'ember-frost-list/pods/components/frost-list-item/component'
-import layout from '../templates/components/frost-object-browser-list-item'
+import _ from 'lodash'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-export default FrostListItem.extend({
+export default Ember.Mixin.create(PropTypeMixin, {
 
   // ================================================================
   // Dependencies
@@ -12,38 +13,51 @@ export default FrostListItem.extend({
   // Properties
   // ================================================================
 
-  layout: layout,
+  _pageNumber: 0,
 
-  classNames: ['frost-list-item'],
+  propTypes: {
+    detailLevel: PropTypes.string,
+    itemsPerPage: PropTypes.number,
+    pageNumber: PropTypes.number,
+    selectedItems: PropTypes.array,
+    valuesTotal: PropTypes.number
+  },
 
-  classNameBindings: ['isSmall:small', 'isMedium:medium', 'isLarge:large'],
+  getDefaultProps () {
+    return {
+      detailLevel: 'low',
+      itemsPerPage: 20,
+      pageNumber: null,
+      selectedItems: Ember.A([]),
+      valuesTotal: null
+    }
+  },
 
   // ================================================================
   // Computed Properties
   // ================================================================
 
+  /**
+   * Show total items count, if valuesTotal is set, just use this value,
+   * otherwise shows length of value array
+   */
   @readOnly
-  @computed('detailLevel')
-  isSmall: function (detailLevel) {
-    return detailLevel === 'low'
-  },
+  @computed('valuesTotal', 'values', 'length', 'values.length')
+  computedValuesTotal: function (valuesTotal, values, length) {
+    if (valuesTotal) {
+      return valuesTotal
+    }
 
-  @readOnly
-  @computed('detailLevel')
-  isMedium: function (detailLevel) {
-    return detailLevel === 'medium'
-  },
+    try {
+      return values.get('length')
+    } catch (err) {
+    }
 
-  @readOnly
-  @computed('detailLevel')
-  isLarge: function (detailLevel) {
-    return detailLevel === 'high'
-  },
+    if (_.isArray(values)) {
+      return values.length
+    }
 
-  @readOnly
-  @computed('model._hash', 'model.hasDirtyAttributes') // This forces bunsen to re-render when editing starts or save completes
-  record () {
-    return this.get('model')
+    return length
   }
 
   // ================================================================

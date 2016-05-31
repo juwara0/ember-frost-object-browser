@@ -7,7 +7,7 @@
     {{#if viewLevel.low}}
       {{frost-button
         disabled=(eq detailLevel 'low')
-        onClick=(action onDetailChange 'low')
+        onClick=(action 'onDetailChange' 'low')
         priority='tertiary'
         size='small'
         icon='frost/list-small'
@@ -16,7 +16,7 @@
     {{#if viewLevel.medium}}
       {{frost-button
         disabled=(eq detailLevel 'medium')
-        onClick=(action onDetailChange 'medium')
+        onClick=(action 'onDetailChange' 'medium')
         priority='tertiary'
         size='small'
         icon='frost/list-medium'
@@ -25,7 +25,7 @@
     {{#if viewLevel.high}}
       {{frost-button
         disabled=(eq detailLevel 'high')
-        onClick=(action onDetailChange 'high')
+        onClick=(action 'onDetailChange' 'high')
         priority='tertiary'
         size='small'
         icon='frost/list-large'
