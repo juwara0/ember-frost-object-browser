@@ -36,6 +36,9 @@ export default Component.extend({
     return _pageNumber
   },
 
+  /**
+   * Determines the starting page value in the display text
+   */
   @readOnly
   @computed('page', 'itemsPerPage', 'total')
   computedOffset: function (page, itemsPerPage, total) {
@@ -46,6 +49,9 @@ export default Component.extend({
     return page * itemsPerPage + 1
   },
 
+  /**
+   * Determines the ending page value in the display text
+   */
   @readOnly
   @computed('page', 'itemsPerPage', 'total')
   computedEnd: function (page, itemsPerPage, total) {
@@ -53,6 +59,9 @@ export default Component.extend({
     return (total < pageMax) ? total : pageMax
   },
 
+  /**
+   * Creates the pagination display test
+   */
   @readOnly
   @computed('computedOffset', 'computedEnd', 'total')
   paginationText (computedOffset, computedEnd, total) {
@@ -63,12 +72,18 @@ export default Component.extend({
     return `${computedOffset} to ${computedEnd} of ${total}`
   },
 
+  /**
+   * Determines whether the left buttons should be enabled/disabled
+   */
   @readOnly
   @computed('page')
   leftButtonsDisabled: function (page) {
     return page === 0
   },
 
+  /**
+   * Determines whether the right buttons should be enabled/disabled
+   */
   @readOnly
   @computed('page', 'itemsPerPage', 'total')
   rightButtonsDisabled: function (page, itemsPerPage, total) {

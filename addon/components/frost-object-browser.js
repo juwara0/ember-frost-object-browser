@@ -6,12 +6,6 @@ const {
   Component
 } = Ember
 
-/**
- * @type SelectedRecord
- * @property {Boolean} isSelected - whether or not it is selected
- * @property {Object} record - the record itself
- */
-
 export default Component.extend(ObjectBrowserStates, {
 
   // ================================================================

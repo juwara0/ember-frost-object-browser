@@ -50,6 +50,9 @@ export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
   // Computed Properties
   // ================================================================
 
+  /**
+   * The level of detail, if set, to use when displaying the data
+   */
   @readOnly
   @computed('detailLevel', 'viewSchema')
   computedViewLevel: function (detailLevel, viewSchema) {
