@@ -38,10 +38,10 @@
         {{#frost-list onSelect=(action onSelect) selections=display.selectedItems records=display.computedValues as |record|}}
           {{#frost-object-browser-list-item model=record detailLevel=display.detailLevel as |value|}}
             {{frost-bunsen-detail
-              model=display.model
+              bunsenModel=display.model
+              bunsenView=display.computedViewLevel
               renderers=display.renderers
               value=value
-              view=display.computedViewLevel
             }}
           {{/frost-object-browser-list-item}}
         {{/frost-list}}
