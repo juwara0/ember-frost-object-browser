@@ -3,7 +3,11 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 import layout from '../templates/components/frost-object-browser-paginator'
 
-export default Ember.Component.extend({
+const {
+  Component
+} = Ember
+
+export default Component.extend({
 
   // ================================================================
   // Dependencies

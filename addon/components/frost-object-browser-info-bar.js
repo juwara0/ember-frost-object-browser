@@ -2,7 +2,11 @@ import Ember from 'ember'
 import layout from '../templates/components/frost-object-browser-info-bar'
 import ObjectBrowserStates from '../mixins/frost-object-browser-states'
 
-export default Ember.Component.extend(ObjectBrowserStates, {
+const {
+  Component
+} = Ember
+
+export default Component.extend(ObjectBrowserStates, {
 
   // ================================================================
   // Dependencies

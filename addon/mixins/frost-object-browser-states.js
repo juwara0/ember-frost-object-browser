@@ -3,7 +3,11 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import _ from 'lodash'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-export default Ember.Mixin.create(PropTypeMixin, {
+const {
+  Mixin
+} = Ember
+
+export default Mixin.create(PropTypeMixin, {
 
   // ================================================================
   // Dependencies

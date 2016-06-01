@@ -5,7 +5,14 @@ import _ from 'lodash'
 import ObjectBrowserStates from '../mixins/frost-object-browser-states'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-export default Ember.Component.extend(ObjectBrowserStates, PropTypeMixin, {
+const {
+  A,
+  Component,
+  observer,
+  run
+} = Ember
+
+export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
 
   // ================================================================
   // Dependencies
@@ -34,7 +41,7 @@ export default Ember.Component.extend(ObjectBrowserStates, PropTypeMixin, {
       detailLevel: 'low',
       itemsPerPage: 20,
       pageNumber: null,
-      selectedItems: Ember.A([]),
+      selectedItems: A([]),
       valuesTotal: null
     }
   },
@@ -77,7 +84,7 @@ export default Ember.Component.extend(ObjectBrowserStates, PropTypeMixin, {
   getRemainingSelectedItems () {
     let selectedItems = this.get('selectedItems')
     let vals = this.get('values')
-    return Ember.A(
+    return A(
       _.filter(selectedItems, (item) => vals.indexOf(item) >= 0)
     )
   },
@@ -89,11 +96,11 @@ export default Ember.Component.extend(ObjectBrowserStates, PropTypeMixin, {
   /**
    * This gets called whenever anything passed to us changes.
    */
-  onValuesChanged: Ember.observer('values.[]', function () {
+  onValuesChanged: observer('values.[]', function () {
     let selectedItems = this.get('selectedItems')
     const remainingSelectedItems = this.getRemainingSelectedItems()
     if (selectedItems.length > remainingSelectedItems.length) {
-      Ember.run.later(this, function () {
+      run.later(this, function () {
         this.set('selectedItems', remainingSelectedItems)
         const onRowSelect = this.get('onRowSelect')
         if (onRowSelect) {

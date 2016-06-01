@@ -2,6 +2,10 @@ import Ember from 'ember'
 import layout from '../templates/components/frost-object-browser-filter'
 import _ from 'lodash'
 
+const {
+  Component
+} = Ember
+
 function callIfDefined (context, functionName, ...args) {
   let func = context.get(functionName)
 
@@ -10,7 +14,7 @@ function callIfDefined (context, functionName, ...args) {
   }
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['facets'],
   updateFilterState (filterState) {
