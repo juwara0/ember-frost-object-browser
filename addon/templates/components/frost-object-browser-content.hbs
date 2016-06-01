@@ -6,7 +6,12 @@
       (hash
         pagination=(component
         'frost-object-browser-paginator'
-          onPageChanged=(action 'onPageChanged')
+          itemsPerPage=itemsPerPage
+          _pageNumber=(mut (get this '_pageNumber'))
+          pageNumber=(get this 'pageNumber')
+          length=(get this 'length')
+          values=(get this 'values')
+          valuesTotal=(get this 'valuesTotal')
         )
         expansion=(component
         'frost-object-browser-button-bar'
@@ -14,7 +19,6 @@
           viewLevel=viewSchema
         )
       )
-      this
     )}}
   </div>
 {{/yield-slot}}

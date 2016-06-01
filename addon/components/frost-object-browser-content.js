@@ -3,8 +3,9 @@ import computed, {readOnly} from 'ember-computed-decorators'
 import layout from '../templates/components/frost-object-browser-content'
 import _ from 'lodash'
 import ObjectBrowserStates from '../mixins/frost-object-browser-states'
+import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
-export default Ember.Component.extend(ObjectBrowserStates, {
+export default Ember.Component.extend(ObjectBrowserStates, PropTypeMixin, {
 
   // ================================================================
   // Dependencies
@@ -17,6 +18,26 @@ export default Ember.Component.extend(ObjectBrowserStates, {
   layout,
 
   classNames: ['content'],
+
+  _pageNumber: null,
+
+  propTypes: {
+    detailLevel: PropTypes.string,
+    itemsPerPage: PropTypes.number,
+    pageNumber: PropTypes.number,
+    selectedItems: PropTypes.array,
+    valuesTotal: PropTypes.number
+  },
+
+  getDefaultProps () {
+    return {
+      detailLevel: 'low',
+      itemsPerPage: 20,
+      pageNumber: null,
+      selectedItems: Ember.A([]),
+      valuesTotal: null
+    }
+  },
 
   // ================================================================
   // Computed Properties
@@ -33,19 +54,6 @@ export default Ember.Component.extend(ObjectBrowserStates, {
   },
 
   /**
-   * This tricky parameter prioritize page number property set outside of component,
-   * if it's not set, we use our internal _pageNumber parameter
-   */
-  @readOnly
-  @computed('pageNumber', '_pageNumber', 'valuesTotal', 'values.length')
-  computedPageNumber: function (pageNumber, _pageNumber, valuesTotal) {
-    if (pageNumber !== null) {
-      return pageNumber
-    }
-    return _pageNumber
-  },
-
-  /**
    * Values will be shown in browser after pagination logic applied
    */
   @readOnly
@@ -55,7 +63,6 @@ export default Ember.Component.extend(ObjectBrowserStates, {
       // pagination is contolled outside object-browser
       return values.slice(0, itemsPerPage)
     }
-
     return values.slice(_pageNumber * itemsPerPage, (_pageNumber + 1) * itemsPerPage)
   },
 
@@ -119,37 +126,6 @@ export default Ember.Component.extend(ObjectBrowserStates, {
       const onRowSelect = this.get('onRowSelect')
       if (onRowSelect) {
         onRowSelect(allSelected, newSelected, deSelected)
-      }
-    },
-
-    /**
-     * When page number has been changed by paginaor
-     * @param {String} where - new page number
-     */
-    onPageChanged (where) {
-      const externalPageNumber = this.get('pageNumber')
-      const total = this.get('computedValuesTotal')
-      const itemsPerPage = this.get('itemsPerPage')
-      let currentPage = this.get('computedPageNumber')
-      switch (where) {
-        case 'begin':
-          currentPage = 0
-          break
-        case 'back':
-          currentPage--
-          break
-        case 'forward':
-          currentPage++
-          break
-        case 'end':
-          currentPage = Math.floor((total - 1) / itemsPerPage)
-          break
-      }
-
-      if (externalPageNumber !== null) {
-        this.sendAction('onPageChanged', currentPage)
-      } else {
-        this.set('_pageNumber', currentPage)
       }
     }
   }

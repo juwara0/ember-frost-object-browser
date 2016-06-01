@@ -3,14 +3,14 @@
     {{frost-button
       disabled=leftButtonsDisabled
       icon="frost/double-chevron-left"
-      onClick=(action onPageChanged 'begin')
+      onClick=(action 'onPageChanged' 'begin')
       priority="tertiary"
       size="small"
     }}
     {{frost-button
       disabled=leftButtonsDisabled
       icon="frost/chevron-left"
-      onClick=(action onPageChanged 'back')
+      onClick=(action 'onPageChanged' 'back')
       priority="tertiary"
       size="small"
     }}
@@ -20,14 +20,14 @@
     {{frost-button
       disabled=rightButtonsDisabled
       icon="frost/chevron-left"
-      onClick=(action onPageChanged 'forward')
+      onClick=(action 'onPageChanged' 'forward')
       priority="tertiary"
       size="small"
     }}
     {{frost-button
       disabled=rightButtonsDisabled
       icon="frost/double-chevron-left"
-      onClick=(action onPageChanged 'end')
+      onClick=(action 'onPageChanged' 'end')
       priority="tertiary"
       size="small"
     }}

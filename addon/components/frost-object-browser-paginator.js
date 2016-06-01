@@ -1,5 +1,6 @@
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
+import _ from 'lodash'
 import layout from '../templates/components/frost-object-browser-paginator'
 
 export default Ember.Component.extend({
@@ -17,6 +18,19 @@ export default Ember.Component.extend({
   // ================================================================
   // Computed Properties
   // ================================================================
+
+  /**
+   * This tricky parameter prioritize page number property set outside of component,
+   * if it's not set, we use our internal _pageNumber parameter
+   */
+  @readOnly
+  @computed('pageNumber', '_pageNumber', 'valuesTotal', 'values.length')
+  page: function (pageNumber, _pageNumber, valuesTotal) {
+    if (pageNumber !== null) {
+      return pageNumber
+    }
+    return _pageNumber
+  },
 
   @readOnly
   @computed('page', 'itemsPerPage', 'total')
@@ -61,17 +75,51 @@ export default Ember.Component.extend({
     return page === Math.floor((total - 1) / itemsPerPage)
   },
 
+  /**
+   * Show total items count, if valuesTotal is set, just use this value,
+   * otherwise shows length of value array
+   */
+  @readOnly
+  @computed('valuesTotal', 'values', 'length', 'values.length')
+  total: function (valuesTotal, values, length) {
+    if (valuesTotal) {
+      return valuesTotal
+    }
+
+    try {
+      return values.get('length')
+    } catch (err) {
+    }
+
+    if (_.isArray(values)) {
+      return values.length
+    }
+
+    return length
+  },
+
   // ================================================================
   // Functions
   // ================================================================
 
   /**
-   * Handle command buttons for changing pagination
-   * @param {String} where - one of begin|back|forward|end
+   * init event hook
+   *
+   * @returns {undefined}
    */
-  onPageChanged (where) {
-    this.sendAction('onPageChanged', where)
-  }
+  init () {
+    this._super(...arguments)
+    this.componentInit()
+  },
+
+  /**
+   * Sets up the initial state with _pageNumber set to 0
+   *
+   * @returns {undefined}
+   */
+  componentInit () {
+    this.set('_pageNumber', 0)
+  },
 
   // ================================================================
   // Events
@@ -81,4 +129,37 @@ export default Ember.Component.extend({
   // Actions
   // ================================================================
 
+  actions: {
+
+    /**
+     * When page number has been changed by paginaor
+     * @param {String} where - new page number
+     */
+    onPageChanged (where) {
+      const externalPageNumber = this.get('pageNumber')
+      const total = this.get('total')
+      const itemsPerPage = this.get('itemsPerPage')
+      let currentPage = this.get('page')
+      switch (where) {
+        case 'begin':
+          currentPage = 0
+          break
+        case 'back':
+          currentPage--
+          break
+        case 'forward':
+          currentPage++
+          break
+        case 'end':
+          currentPage = Math.floor((total - 1) / itemsPerPage)
+          break
+      }
+
+      if (externalPageNumber !== null) {
+        this.sendAction('onPageChanged', currentPage)
+      } else {
+        this.set('_pageNumber', currentPage)
+      }
+    }
+  }
 })

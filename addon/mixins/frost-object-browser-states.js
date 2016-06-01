@@ -13,22 +13,12 @@ export default Ember.Mixin.create(PropTypeMixin, {
   // Properties
   // ================================================================
 
-  _pageNumber: 0,
-
   propTypes: {
-    detailLevel: PropTypes.string,
-    itemsPerPage: PropTypes.number,
-    pageNumber: PropTypes.number,
-    selectedItems: PropTypes.array,
     valuesTotal: PropTypes.number
   },
 
   getDefaultProps () {
     return {
-      detailLevel: 'low',
-      itemsPerPage: 20,
-      pageNumber: null,
-      selectedItems: Ember.A([]),
       valuesTotal: null
     }
   },

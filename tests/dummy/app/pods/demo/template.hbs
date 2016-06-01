@@ -28,12 +28,8 @@
       values=model.resources
       viewSchema=viewSchema
     as |slot|}}
-      {{#block-slot slot 'controls' as |control page|}}
-        {{control.pagination
-          itemsPerPage=page.itemsPerPage
-          page=page.computedPageNumber
-          total=page.computedValuesTotal
-        }}
+      {{#block-slot slot 'controls' as |control|}}
+        {{control.pagination}}
         {{control.expansion
           onDetailChange=(action 'onDetailChange')
         }}
