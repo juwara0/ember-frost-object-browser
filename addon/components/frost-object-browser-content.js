@@ -2,7 +2,6 @@ import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import layout from '../templates/components/frost-object-browser-content'
 import _ from 'lodash'
-import ObjectBrowserStates from '../mixins/frost-object-browser-states'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 const {
@@ -15,10 +14,9 @@ const {
 /**
  * @module
  * @augments ember/Component
- * @augments module:mixins/frost-object-browser-states
  * @augments module:ember-prop-types
  */
-export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
+export default Component.extend(PropTypeMixin, {
 
   // ================================================================
   // Dependencies
