@@ -12,6 +12,12 @@ const {
   run
 } = Ember
 
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/frost-object-browser-states
+ * @augments module:ember-prop-types
+ */
 export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
 
   // ================================================================
@@ -22,8 +28,10 @@ export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
   // Properties
   // ================================================================
 
+  /** @type {Object} */
   layout,
 
+  /** @type {String[]} */
   classNames: ['content'],
 
   _pageNumber: null,
@@ -50,11 +58,15 @@ export default Component.extend(ObjectBrowserStates, PropTypeMixin, {
   // Computed Properties
   // ================================================================
 
-  /**
-   * The level of detail, if set, to use when displaying the data
-   */
   @readOnly
   @computed('detailLevel', 'viewSchema')
+  /**
+   * The level of detail, if set, to use when displaying the data
+   *
+   * @function
+   * @param {String} detailLevel The level of detail (ex. low, medium, high)
+   * @param {Object} viewSchema An object describing the desired view
+   */
   computedViewLevel: function (detailLevel, viewSchema) {
     if (viewSchema) {
       return viewSchema[detailLevel]
