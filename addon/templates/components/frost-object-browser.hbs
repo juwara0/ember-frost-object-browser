@@ -6,7 +6,20 @@
   {{#yield-slot 'filters'}}
     {{yield}}
   {{/yield-slot}}
-  {{#yield-slot 'content'}}
-    {{yield}}
-  {{/yield-slot}}
+  <div class="content">
+    {{#yield-slot 'view'}}
+      {{yield}}
+    {{/yield-slot}}
+    {{#yield-slot 'actions'}}
+      <div class="actions">
+        {{yield (block-params
+          (hash
+            button=(component
+            'frost-object-browser-action-bar'
+            )
+          )
+        )}}
+      </div>
+    {{/yield-slot}}
+  </div>
 </div>

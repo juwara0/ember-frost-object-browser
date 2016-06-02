@@ -28,14 +28,3 @@
     (action 'onSelect')
   )}}
 {{/yield-slot}}
-{{#yield-slot 'selection-actions'}}
-  <div class="actions">
-    {{yield (block-params
-      (hash
-        button=(component
-        'frost-object-browser-action-bar'
-        )
-      )
-    )}}
-  </div>
-{{/yield-slot}}
