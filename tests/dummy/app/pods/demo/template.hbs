@@ -1,11 +1,11 @@
 {{#frost-object-browser as |slot|}}
   {{#block-slot slot 'info-bar'}}
-    {{#frost-object-browser-info-bar values=model.resources as |slot|}}
+    {{#frost-info-bar as |slot|}}
       {{#block-slot slot 'title'}}
         Resources
       {{/block-slot}}
-      {{#block-slot slot 'summary' as |infoBar|}}
-        {{infoBar.computedValuesTotal}} - L3VPN Services
+      {{#block-slot slot 'summary'}}
+        {{model.resources.length}} - L3VPN Services
       {{/block-slot}}
       {{#block-slot slot 'actions' as |action|}}
         {{action.button
@@ -14,7 +14,7 @@
           text='Create'
         }}
       {{/block-slot}}
-    {{/frost-object-browser-info-bar}}
+    {{/frost-info-bar}}
   {{/block-slot}}
   {{#block-slot slot 'filters'}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
