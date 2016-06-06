@@ -17,97 +17,55 @@ ember install ember-frost-object-browser
 
 | Attribute | Type | Value | Description |
 | --------- | ---- | ----- | ----------- |
-| ` `       | ` `  | ` `   | Coming soon |
+| `multiSelect` | `Boolean`  | `false` | Optional whether this button be used if more than one item is selected in the view |
+| `onActionClick` | `Function` | `<action-name>` and `<action-type>` | Optional callback for when the button is clicked |
+| `priority` | `String` | `secondary` | Optional button priority [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
+| `size` | `String` | `large` | Optional button size [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
+| `text` | `String` | | Required text to display on the button [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
 
 ## Examples
 
 ### Template
 
+The object browser now supports named block slots.
+
+These slots names are:
+
+`info-bar`
+`filters`
+`view`
+`actions`
+
+You only have to set the slots that you desire to use. Slots that are not set will not show up.
+
 ```handlebars
-{{#frost-object-browser
-  facets=model.facets
-  filters=filters
-  model=model.model
-  onCreate=(action 'onCreate')
-  onDetailChange=(action 'onDetailChange')
-  onFacetChange=(action 'onOptionSelected')
-  onFilter=onFilter
-  onRowSelect=(action 'onRowSelect')
-  title='Resources'
-  values=model.visibleResources
-  viewSchema=viewSchema
-as |slot|}}
-  {{#block-slot slot 'app-actions' as |onCreate|}}
-    {{frost-button
-      icon='frost/infobar-create'
-      onClick=(action onCreate)
-      priority='tertiary'
-      size='medium'
-      text='Create'
-      vertical=true
+{{#frost-object-browser as |slot|}}
+  {{#block-slot slot 'info-bar'}}
+    {{#frost-info-bar as |slot|}}
+      …
+    {{/frost-info-bar}}
+  {{/block-slot}}
+  {{#block-slot slot 'filters'}}
+    {{frost-bunsen...}}
+  {{/block-slot}}
+  {{#block-slot slot 'view' as |selections onSelect|}}
+   {{display-component-with-controls selections=selections.selectedItems onSelect=(action onSelect)}}
+  {{/block-slot}}
+  {{#block-slot slot 'actions' as |action|}}
+    {{action.button
+      onActionClick=(action 'onActionClick' 'details')
+      multiSelect=true
+      text='Details'
     }}
-  {{/block-slot}}
-  {{#block-slot slot 'filters' as |filters onFilter|}}
-    {{frost-object-browser-filter filters=filters onFilter=onFilter}}
-  {{/block-slot}}
-  {{#block-slot slot 'info-bar' as |infoBar|}}
-    <div class="primary-title">
-      {{infoBar.title}}
-    </div>
-    <div class="sub-title">
-      {{infoBar.summary}}
-    </div>
-  {{/block-slot}}
-  {{#block-slot slot 'objects' as |object onSelect|}}
-    {{#frost-list onSelect=(action onSelect) selections=object.selectedItems records=object.computedValues as |record|}}
-      {{#frost-object-browser-list-item model=record as |value|}}
-        {{frost-bunsen-detail
-          bunsenModel=object.model
-          bunsenView=object.computedViewLevel
-          renderers=object.renderers
-          value=value
-        }}
-      {{/frost-object-browser-list-item}}
-    {{/frost-list}}
-  {{/block-slot}}
-  {{#block-slot slot 'object-actions'}}
-    <!-- actions go here -->
-  {{/block-slot}}
-  {{#block-slot slot 'pagination' as |paginator onPageChanged|}}
-    {{paginator.control
-      onPageChanged=(action onPageChanged)
+    {{action.button
+      onActionClick=(action 'onActionClick' 'delete')
+      multiSelect=true
+      text='Delete'
     }}
-  {{/block-slot}}
-  {{#block-slot slot 'view-controls' as |viewControl viewLevel onDetailChange|}}
-    <div class="button-bar {{ viewControl.detailLevel }}">
-    {{#if viewLevel.low}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'low')
-        onClick=(action onDetailChange 'low')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-small'
-      }}
-    {{/if}}
-    {{#if viewLevel.medium}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'medium')
-        onClick=(action onDetailChange 'medium')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-medium'
-      }}
-    {{/if}}
-    {{#if viewLevel.high}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'high')
-        onClick=(action onDetailChange 'high')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-large'
-      }}
-    {{/if}}
-    </div>
+    {{action.button
+      onActionClick=(action 'onActionClick' 'edit')
+      text='Edit'
+    }}
   {{/block-slot}}
 {{/frost-object-browser}}
 ```
@@ -149,8 +107,7 @@ Your controller will also need to implement the following callbacks:
 
 `onCreate () {…}`
 `onDetailChange (level) {…}`
-`onFilter (filterState) {...} //Optional, used with filters`
-`onRowSelect (allSelected, newSelected, deSelected) {…}`
+`onActionClick (buttonId, selectedItems) {…}`
 
 You can also check out the demo app bundled with this addon to see an example of using this addon.
 

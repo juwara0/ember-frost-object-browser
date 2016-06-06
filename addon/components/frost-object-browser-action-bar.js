@@ -23,6 +23,9 @@ export default Component.extend({
   /** @type {Object} */
   layout,
 
+  /** @type {Boolean} */
+  multiSelect: false,
+
   // ================================================================
   // Computed Properties
   // ================================================================
