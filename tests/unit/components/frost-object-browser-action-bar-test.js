@@ -12,6 +12,15 @@ describeComponent(
     unit: true
   },
   function () {
+    it('sets default values correctly', function () {
+      const component = this.subject()
+
+      expect(
+        component.get('multiSelect'),
+        'multiSelect: false'
+      ).to.eql(false)
+    })
+
     it('sets dependent keys correctly', function () {
       const component = this.subject()
 
