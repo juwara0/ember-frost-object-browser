@@ -1,14 +1,11 @@
 import Ember from 'ember'
 import computed, {readOnly} from 'ember-computed-decorators'
 import layout from '../templates/components/frost-object-browser-content'
-import _ from 'lodash'
 import PropTypeMixin, {PropTypes} from 'ember-prop-types'
 
 const {
   A,
-  Component,
-  observer,
-  run
+  Component
 } = Ember
 
 /**
@@ -32,6 +29,7 @@ export default Component.extend(PropTypeMixin, {
   /** @type {String[]} */
   classNames: ['content'],
 
+  /** @type {?Number} */
   _pageNumber: null,
 
   propTypes: {
@@ -84,69 +82,18 @@ export default Component.extend(PropTypeMixin, {
       return values.slice(0, itemsPerPage)
     }
     return values.slice(_pageNumber * itemsPerPage, (_pageNumber + 1) * itemsPerPage)
-  },
+  }
 
   // ================================================================
   // Functions
   // ================================================================
 
-  /**
-   * If something has been deleted, remove it from our selected items.
-   * @returns Array of remaining Selected Items
-   */
-  getRemainingSelectedItems () {
-    let selectedItems = this.get('selectedItems')
-    let vals = this.get('values')
-    return A(
-      _.filter(selectedItems, (item) => vals.indexOf(item) >= 0)
-    )
-  },
-
   // ================================================================
   // Events
   // ================================================================
 
-  /**
-   * This gets called whenever anything passed to us changes.
-   */
-  onValuesChanged: observer('values.[]', function () {
-    let selectedItems = this.get('selectedItems')
-    const remainingSelectedItems = this.getRemainingSelectedItems()
-    if (selectedItems.length > remainingSelectedItems.length) {
-      run.later(this, function () {
-        this.set('selectedItems', remainingSelectedItems)
-        const onRowSelect = this.get('onRowSelect')
-        if (onRowSelect) {
-          onRowSelect(remainingSelectedItems, [], [])
-        }
-      })
-    }
-  }),
   // ================================================================
   // Actions
   // ================================================================
 
-  actions: {
-
-    /**
-     * Prepare arguments for and call our on-row-select callback
-     * @param {SelectedRecord} selectedRecord - record that was just selected
-     */
-    onSelect (attr) {
-      let newSelected = {}
-      let deSelected = {}
-      const allSelected = this.get('selectedItems')
-      if (attr.isSelected) {
-        allSelected.addObject(attr.record)
-        newSelected = attr.record
-      } else {
-        allSelected.removeObject(attr.record)
-        deSelected = attr.record
-      }
-      const onRowSelect = this.get('onRowSelect')
-      if (onRowSelect) {
-        onRowSelect(allSelected, newSelected, deSelected)
-      }
-    }
-  }
 })

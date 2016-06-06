@@ -8,7 +8,12 @@
   {{/yield-slot}}
   <div class="content">
     {{#yield-slot 'view'}}
-      {{yield}}
+      {{yield (block-params
+        (hash
+          selectedItems=(get this 'selectedItems')
+        )
+        (action 'onSelect')
+      )}}
     {{/yield-slot}}
     {{#yield-slot 'actions'}}
       <div class="actions">
@@ -16,6 +21,11 @@
           (hash
             button=(component
             'frost-object-browser-action-bar'
+              multiSelect=multiSelect
+              onActionClick=(action onActionClick)
+              priority='secondary'
+              selectedItems=(get this 'selectedItems')
+              size='large'
             )
           )
         )}}

@@ -19,12 +19,12 @@
   {{#block-slot slot 'filters'}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
-  {{#block-slot slot 'view'}}
+  {{#block-slot slot 'view' as |selections onSelect|}}
     {{#frost-object-browser-content
       detailLevel='high'
       itemsPerPage=6
       model=model.model
-      onRowSelect=(action 'onRowSelect')
+
       values=model.resources
       viewSchema=viewSchema
     as |slot|}}
@@ -34,8 +34,8 @@
           onDetailChange=(action 'onDetailChange')
         }}
       {{/block-slot}}
-      {{#block-slot slot 'view' as |display onSelect|}}
-        {{#frost-list onSelect=(action onSelect) selections=display.selectedItems records=display.computedValues as |record|}}
+      {{#block-slot slot 'view' as |display|}}
+        {{#frost-list onSelect=(action onSelect) selections=selections.selectedItems records=display.computedValues as |record|}}
           {{#frost-object-browser-list-item model=record detailLevel=display.detailLevel as |value|}}
             {{frost-bunsen-detail
               bunsenModel=display.model
@@ -50,8 +50,18 @@
   {{/block-slot}}
   {{#block-slot slot 'actions' as |action|}}
     {{action.button
-      actionBarItems=actionBarItems
-      onActionClick=(action 'onActionClick')
+      onActionClick=(action 'onActionClick' 'details')
+      multiSelect=true
+      text='Details'
+    }}
+    {{action.button
+      onActionClick=(action 'onActionClick' 'delete')
+      multiSelect=true
+      text='Delete'
+    }}
+    {{action.button
+      onActionClick=(action 'onActionClick' 'edit')
+      text='Edit'
     }}
   {{/block-slot}}
 {{/frost-object-browser}}
