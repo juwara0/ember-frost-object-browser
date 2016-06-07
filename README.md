@@ -18,7 +18,7 @@ ember install ember-frost-object-browser
 | Attribute | Type | Value | Description |
 | --------- | ---- | ----- | ----------- |
 | `multiSelect` | `Boolean`  | `false` | Optional whether this button be used if more than one item is selected in the view |
-| `onActionClick` | `Function` | `<action-name>` and `<action-type>` | Optional callback for when the button is clicked |
+| `onActionClick` | `Function` | `<action-name>` and `<action-type>` | Callback for when the button is clicked |
 | `priority` | `String` | `secondary` | Optional button priority [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
 | `size` | `String` | `large` | Optional button size [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
 | `text` | `String` | | Required text to display on the button [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
@@ -29,14 +29,9 @@ ember install ember-frost-object-browser
 
 The object browser now supports named block slots.
 
-These slots names are:
+The slots names are: `info-bar` `filters` `view` `actions`
 
-`info-bar`
-`filters`
-`view`
-`actions`
-
-You only have to set the slots that you desire to use. Slots that are not set will not show up.
+Slots that are not set will not show up.
 
 ```handlebars
 {{#frost-object-browser as |slot|}}
@@ -46,7 +41,7 @@ You only have to set the slots that you desire to use. Slots that are not set wi
     {{/frost-info-bar}}
   {{/block-slot}}
   {{#block-slot slot 'filters'}}
-    {{frost-bunsen...}}
+    {{frost-bunsen-form bunsenModel=formModel onChange=(action 'onChange')}}
   {{/block-slot}}
   {{#block-slot slot 'view' as |selections onSelect|}}
    {{display-component-with-controls selections=selections.selectedItems onSelect=(action onSelect)}}
@@ -111,9 +106,43 @@ Your controller will also need to implement the following callbacks:
 
 You can also check out the demo app bundled with this addon to see an example of using this addon.
 
-###Adding filters
+###Using the `info-bar` slot
 
-An optional `filters` attribute can be passed to the component. `filters` should be an array of objects
+This slot will yield what is put inside the block.
+
+```handlebars
+{{#block-slot slot 'info-bar'}}
+  …
+{{/block-slot}}
+```
+
+###Using the `filters` slot
+
+This slot will yield what is put inside the block.
+
+We recommend using a bunsen-form component with the onChange hook implemented [more info](https://github.com/ciena-frost/ember-frost-bunsen#form-view)
+
+```handlebars
+{{#block-slot slot 'filters'}}
+  {{frost-bunsen-form bunsenModel=formModel onChange=(action 'onChange')}}
+{{/block-slot}}
+```
+
+Alternatively: `frost-select` style filters are supported.
+
+When a filter is changed or cleared, the `onFilter` callback is called with the argument
+`filterState`, which is a hash where the keys correspond to the filter names and the value is
+the value currently reported by the filter.
+
+An optional `filters` attribute can be passed to the component.
+
+```handlebars
+{{#block-slot slot 'filters'}}
+  {{frost-object-browser-filter filters=filters onFilter=onFilter}}
+{{/block-slot}}
+```
+
+`filters` should be an array of objects
 
 ```javascript
     filters: [{
@@ -131,14 +160,56 @@ An optional `filters` attribute can be passed to the component. `filters` should
         value: 'value'
       }]
     }]
-
 ```
 
-Currently `frost-select` style filters are supported.
+###Using the `view` slot
 
-When a filter is changed or cleared, the `onFilter` callback is called with the argument
-`filterState`, which is a hash where the keys correspond to the filter names and the value is
-the value currently reported by the filter.
+This slot will yield back `selectedItems` (an Ember Array of objects) and `onSelect()` which manages
+adding/removing the items in the `selectedItems` array.
+
+```handlebars
+{{#block-slot slot 'view' as |selections onSelect|}}
+ {{display-component-with-controls selections=selections.selectedItems onSelect=(action onSelect)}}
+{{/block-slot}}
+```
+
+The display component that is passed into the `view` slot needs to be a component with controls that manage
+itself (ex. pagination, sort, detail level).
+
+###Using the `actions` slot
+
+This slot will yield back a contextual component `button`. Any number of action.button components can be created.
+Each button will need to implement:
+
+* A callback `onActionClick` with the buttonId that correlates to the intended result when the button is clicked
+* A unique text name `text='Delete'`. Note the capitalization of the first letter. The `text='Delete'` is
+important in that it has additional functionality implemented for clearing the selectedItems array when a "Delete"
+button event is clicked.
+
+Optional button attributes:
+
+* `multiSelect=true` will allow this button to stay enabled if more than one item is selected in the `view` slot (in the selectedItems array)
+* priority [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md)
+* size [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md)
+
+```handlebars
+{{#block-slot slot 'actions' as |action|}}
+  {{action.button
+    onActionClick=(action 'onActionClick' 'details')
+    multiSelect=true
+    text='Details'
+  }}
+  {{action.button
+    onActionClick=(action 'onActionClick' 'delete')
+    multiSelect=true
+    text='Delete'
+  }}
+  {{action.button
+    onActionClick=(action 'onActionClick' 'edit')
+    text='Edit'
+  }}
+{{/block-slot}}
+```
 
 ## Development
 
