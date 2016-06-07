@@ -15,10 +15,11 @@ ember install ember-frost-object-browser
 
 ## API
 
+### `actions` slot
 | Attribute | Type | Value | Description |
 | --------- | ---- | ----- | ----------- |
 | `multiSelect` | `Boolean`  | `false` | Optional whether this button be used if more than one item is selected in the view |
-| `onActionClick` | `Function` | `<action-name>` and `<action-type>` | Callback for when the button is clicked |
+| `onActionClick` | `Function` | `<action-name>` and `<buttonId>` | Callback for when the button is clicked |
 | `priority` | `String` | `secondary` | Optional button priority [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
 | `size` | `String` | `large` | Optional button size [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
 | `text` | `String` | | Required text to display on the button [more info](https://github.com/ciena-frost/ember-frost-core/blob/master/frost-button.md) |
@@ -126,40 +127,6 @@ We recommend using a bunsen-form component with the onChange hook implemented [m
 {{#block-slot slot 'filters'}}
   {{frost-bunsen-form bunsenModel=formModel onChange=(action 'onChange')}}
 {{/block-slot}}
-```
-
-Alternatively: `frost-select` style filters are supported.
-
-When a filter is changed or cleared, the `onFilter` callback is called with the argument
-`filterState`, which is a hash where the keys correspond to the filter names and the value is
-the value currently reported by the filter.
-
-An optional `filters` attribute can be passed to the component.
-
-```handlebars
-{{#block-slot slot 'filters'}}
-  {{frost-object-browser-filter filters=filters onFilter=onFilter}}
-{{/block-slot}}
-```
-
-`filters` should be an array of objects
-
-```javascript
-    filters: [{
-      label: 'A label for the filter',
-      name: '', // Key for filter state hash
-      type: 'select', // Currently only 'select' type is supported
-      clearable: true, // Whether or not the value can be cleared
-      showing: true,  // True for expanded and false for collapsed, optional
-      selectedValue: 'value', // Value in the list to set as selected, should match
-                              // the value attribute of an item in the 'data' list
-
-      // List of values
-      data: [{
-        label: 'Label for an item',
-        value: 'value'
-      }]
-    }]
 ```
 
 ###Using the `view` slot

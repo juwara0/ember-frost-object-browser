@@ -31,7 +31,7 @@ export default Component.extend({
   // ================================================================
 
   /**
-   * Whether the button or buttons should be disabled
+   * Whether the button should be disabled
    *
    * @function
    * @returns {Boolean}
