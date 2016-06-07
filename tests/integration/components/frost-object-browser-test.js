@@ -1,3 +1,4 @@
+import Ember from 'ember'
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
@@ -27,9 +28,9 @@ describeComponent(
       `)
 
       expect(
-        this.$('>:first-child').hasClass('frost-object-browser'),
+        this.$('.frost-object-browser'),
         'Has class "frost-object-browser"'
-      ).to.be.true
+      ).to.have.length(1)
     })
 
     it('it yields the "info-bar" slot', function () {
