@@ -149,9 +149,8 @@ This slot will yield back a contextual component `button`. Any number of action.
 Each button will need to implement:
 
 * A callback `onActionClick` with the buttonId that correlates to the intended result when the button is clicked
-* A unique text name `text='Delete'`. Note the capitalization of the first letter. The `text='Delete'` is
-important in that it has additional functionality implemented for clearing the selectedItems array when a "Delete"
-button event is clicked.
+* A unique text name `text='Delete'`. The `text='Delete'` is important in that it has additional functionality
+implemented for clearing the selectedItems array when a "Delete" button event is clicked.
 
 Optional button attributes:
 
