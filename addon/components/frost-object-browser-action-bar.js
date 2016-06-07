@@ -75,6 +75,7 @@ export default Component.extend({
      */
     onActionClick (selectedItems) {
       const onActionClick = this.get('onActionClick')
+
       if (onActionClick) {
         onActionClick(selectedItems)
 
