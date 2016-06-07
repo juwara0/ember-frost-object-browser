@@ -150,7 +150,9 @@ Each button will need to implement:
 
 * A callback `onActionClick` with the buttonId that correlates to the intended result when the button is clicked
 * A unique text name `text='Delete'`. The `text='Delete'` is important in that it has additional functionality
-implemented for clearing the selectedItems array when a "Delete" button event is clicked.
+implemented for clearing the selectedItems array when a "Delete" button event is clicked. The word "delete" needs
+to be used somewhere in the button text. Capitalization is ignored so you can use "DELETE", "Delete" or "delete item"
+just so long as the word "delete" is included in the button text.
 
 Optional button attributes:
 

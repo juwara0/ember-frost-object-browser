@@ -78,7 +78,7 @@ export default Component.extend({
       if (onActionClick) {
         onActionClick(selectedItems)
 
-        if (this.get('text').toLowerCase() === 'delete') {
+        if (this.get('text').toLowerCase().indexOf('delete') !== -1) {
           selectedItems.clear()
         }
       }
