@@ -1,35 +1,39 @@
-{{yield}}
-{{#yield-slot 'info-bar'}}
+{{#if hasBlockParams}}
   {{yield}}
-{{/yield-slot}}
-<div class="body">
-  {{#yield-slot 'filters'}}
+  {{#yield-slot 'info-bar'}}
     {{yield}}
   {{/yield-slot}}
-  <div class="content">
-    {{#yield-slot 'view'}}
-      {{yield (block-params
-        (hash
-          selectedItems=(get this 'selectedItems')
-        )
-        (action 'onSelect')
-      )}}
+  <div class="body">
+    {{#yield-slot 'filters'}}
+      {{yield}}
     {{/yield-slot}}
-    {{#yield-slot 'actions'}}
-      <div class="actions">
+    <div class="content">
+      {{#yield-slot 'view'}}
         {{yield (block-params
           (hash
-            button=(component
-            'frost-object-browser-action-bar'
-              multiSelect=multiSelect
-              onActionClick=(action onActionClick)
-              priority='secondary'
-              selectedItems=(get this 'selectedItems')
-              size='large'
-            )
+            selectedItems=(get this 'selectedItems')
           )
+          (action 'onSelect')
         )}}
-      </div>
-    {{/yield-slot}}
+      {{/yield-slot}}
+      {{#yield-slot 'actions'}}
+        <div class="actions">
+          {{yield (block-params
+            (hash
+              button=(component
+              'frost-object-browser-action-bar'
+                multiSelect=multiSelect
+                onActionClick=(action onActionClick)
+                priority='secondary'
+                selectedItems=(get this 'selectedItems')
+                size='large'
+              )
+            )
+          )}}
+        </div>
+      {{/yield-slot}}
+    </div>
   </div>
-</div>
+{{else}}
+ You forgot to add: as |slot|}} to the end of this component declaration
+{{/if}}
