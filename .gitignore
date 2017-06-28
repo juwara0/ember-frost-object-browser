@@ -14,7 +14,7 @@
 /coverage/*
 /libpeerconnection.log
 /typings/*
-npm-debug.log
+npm-debug.log*
 testem.log
 .idea
 ge.json
