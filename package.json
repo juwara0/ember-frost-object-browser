@@ -16,7 +16,7 @@
   },
   "repository": "git@github.com:ciena-frost/ember-frost-object-browser.git",
   "engines": {
-    "node": ">= 5.0.0"
+    "node": ">= 6.0.0"
   },
   "author": "Matthew Dahl (https://github.com/sandersky)",
   "contributors": [
